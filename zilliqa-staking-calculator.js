@@ -39,7 +39,7 @@
         // initialize the form
         _calculatorObject.init = function () {
             var container = document.getElementById(defaults.containerID);
-            
+
             var formObject = document.createElement("form");
             formObject.setAttribute("action", "");
 
@@ -142,6 +142,13 @@
     function insertLineBreak(elem) {
         var linebreak = document.createElement("br");
         elem.appendChild(linebreak);
+    }
+
+    function createParagraph(elem, text) {
+        var paragraph = document.createElement("p");
+        var node = document.createTextNode(text);
+        paragraph.appendChild(node);
+        elem.appendChild(paragraph);
     }
 
     if (typeof(window.stakingCalculator) === 'undefined') {
