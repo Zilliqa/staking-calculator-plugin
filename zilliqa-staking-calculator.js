@@ -1,3 +1,7 @@
+/*
+ * Zilliqa Staking Calculator Plugin
+ * Mar 2020
+ */
 (function(window) {
     'use strict';
 
@@ -8,6 +12,12 @@
     const STAKED_AMOUNT_LABEL = "Staked amount ($ZIL)";
     const REWARDS_LABEL = "Est. rewards accumulated ($ZIL)";
     const CALCULATE_REWARDS_LABEL = "Calculate Rewards";
+
+    const REWARD_CYCLE = 15;
+    const REWARD_FREQUENCY = 24;
+    const ANNUAL_INTEREST_RATE = 10.42 / 100; // percent
+    const PER_CYCLE_INTEREST_RATE = 0.0285479 / 100; // percent
+    const MIN_STAKE_AMOUNT = 1000000;
 
     function stakingCalculator() {
         var _calculatorObject = {};
@@ -26,7 +36,8 @@
             document.getElementById(defaults.containerID).innerHTML = "<p>abcdefgh</p>";    
         }
 
-        _calculatorObject.displayForm = function () {
+        // initialize the form
+        _calculatorObject.init = function () {
             var container = document.getElementById(defaults.containerID);
             
             var formObject = document.createElement("form");
@@ -102,13 +113,15 @@
                 "id": "submitBtn"
             });
             submitBtn.innerHTML = CALCULATE_REWARDS_LABEL;
-            
+
             // Calculate rewards
             // TODO: add integer checks
             submitBtn.addEventListener('click', function() {
-                var days = document.getElementById("days").value;
+                var operationalDays = document.getElementById("days").value;
                 var stakedAmount = document.getElementById("stakedAmount").value;
-                document.getElementById("rewards").value = days * stakedAmount;
+                var rewards = operationalDays * stakedAmount * PER_CYCLE_INTEREST_RATE;
+                console.log(rewards);
+                document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
             }, false);
 
             formObject.appendChild(submitBtn);
@@ -136,4 +149,4 @@
     }
 }(window));
 
-stakingCalculator.displayForm();
+stakingCalculator.init();
