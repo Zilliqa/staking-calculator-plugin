@@ -59,6 +59,14 @@
                 "id": DAYS_OPERATION_DIV_ID,
                 "value": "0"
             });
+
+            daysInput.addEventListener('input', function() {
+                var operationalDays = document.getElementById("days").value;
+                var stakedAmount = document.getElementById("stakedAmount").value;
+                var rewards = calculateRewards(operationalDays, stakedAmount);
+                document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
+            });
+
             formObject.appendChild(daysInput);
 
             // Insert linebreak
@@ -78,8 +86,16 @@
                 "type": "text",
                 "name": STAKED_AMOUNT_DIV_ID,
                 "id": STAKED_AMOUNT_DIV_ID,
-                "value": "0"
+                "value": MIN_STAKE_AMOUNT
             });
+
+            stakedInput.addEventListener('input', function() {
+                var operationalDays = document.getElementById("days").value;
+                var stakedAmount = document.getElementById("stakedAmount").value;
+                var rewards = calculateRewards(operationalDays, stakedAmount);
+                document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
+            });
+
             formObject.appendChild(stakedInput);
 
             // Insert linebreak
@@ -107,24 +123,23 @@
             insertLineBreak(formObject);
 
             // Create button
-            var submitBtn = document.createElement("button");
-            setAttributes(submitBtn, {
-                "type": "button",
-                "id": "submitBtn"
-            });
-            submitBtn.innerHTML = CALCULATE_REWARDS_LABEL;
+            // var submitBtn = document.createElement("button");
+            // setAttributes(submitBtn, {
+            //     "type": "button",
+            //     "id": "submitBtn"
+            // });
+            // submitBtn.innerHTML = CALCULATE_REWARDS_LABEL;
 
             // Calculate rewards
-            // TODO: add integer checks
-            submitBtn.addEventListener('click', function() {
-                var operationalDays = document.getElementById("days").value;
-                var stakedAmount = document.getElementById("stakedAmount").value;
-                var rewards = operationalDays * stakedAmount * PER_CYCLE_INTEREST_RATE;
-                console.log(rewards);
-                document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
-            }, false);
+            // submitBtn.addEventListener('click', function() {
+            //     var operationalDays = document.getElementById("days").value;
+            //     var stakedAmount = document.getElementById("stakedAmount").value;
+            //     var rewards = operationalDays * stakedAmount * PER_CYCLE_INTEREST_RATE;
+            //     console.log(rewards);
+            //     document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
+            // }, false);
 
-            formObject.appendChild(submitBtn);
+            // formObject.appendChild(submitBtn);
 
             container.appendChild(formObject);
         }
@@ -149,6 +164,11 @@
         var node = document.createTextNode(text);
         paragraph.appendChild(node);
         elem.appendChild(paragraph);
+    }
+
+    // TODO: add integer checks
+    function calculateRewards(days, stakedAmount) {
+        return days * stakedAmount * PER_CYCLE_INTEREST_RATE;
     }
 
     if (typeof(window.stakingCalculator) === 'undefined') {
