@@ -40,6 +40,10 @@
         _calculatorObject.init = function () {
             var container = document.getElementById(defaults.containerID);
 
+            var header = document.createElement("h4");
+            header.innerHTML = "SSN REWARD CALCULATOR";
+            container.appendChild(header);
+
             var formObject = document.createElement("form");
             formObject.setAttribute("action", "");
 
@@ -122,25 +126,22 @@
             // Insert linebreak
             insertLineBreak(formObject);
 
+            // Create reset button
             // Create button
-            // var submitBtn = document.createElement("button");
-            // setAttributes(submitBtn, {
-            //     "type": "button",
-            //     "id": "submitBtn"
-            // });
-            // submitBtn.innerHTML = CALCULATE_REWARDS_LABEL;
+            var resetBtn = document.createElement("button");
+            setAttributes(resetBtn, {
+                "type": "button",
+                "id": "resetBtn"
+            });
+            resetBtn.innerHTML = "Reset";
 
-            // Calculate rewards
-            // submitBtn.addEventListener('click', function() {
-            //     var operationalDays = document.getElementById("days").value;
-            //     var stakedAmount = document.getElementById("stakedAmount").value;
-            //     var rewards = operationalDays * stakedAmount * PER_CYCLE_INTEREST_RATE;
-            //     console.log(rewards);
-            //     document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
-            // }, false);
+            resetBtn.addEventListener('click', function() {
+                document.getElementById("days").value = 0;
+                document.getElementById("stakedAmount").value = MIN_STAKE_AMOUNT;
+                document.getElementById("rewards").value = 0;
+            }, false);
 
-            // formObject.appendChild(submitBtn);
-
+            formObject.appendChild(resetBtn);
             container.appendChild(formObject);
         }
 
@@ -168,6 +169,10 @@
 
     // TODO: add integer checks
     function calculateRewards(days, stakedAmount) {
+        var rewards = 0;
+        if (isNaN(days) || isNaN(stakedAmount)) {
+            return rewards;
+        }
         return days * stakedAmount * PER_CYCLE_INTEREST_RATE;
     }
 
