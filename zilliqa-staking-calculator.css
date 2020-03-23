@@ -7,7 +7,7 @@
     font-family: Arial, Helvetica, sans-serif;
     margin: auto;
     padding: 10px 0px 20px 20px;
-    width: 480px;
+    width: 470px;
     border: none;
     border-radius: 8px;
     background: #262A34;
@@ -41,8 +41,8 @@
 
 /* estimated amount */
 #staking-calculator #rewards-container {
-    color: #f0f0f0;
-    background: #00474f;
+    color: #262A34;
+    background: #ffca28;
     padding-top: 2px;
     height: 40px;
     width: 450px;
