@@ -108,23 +108,6 @@
             // Insert linebreak
             insertLineBreak(formObject);
 
-            // Create rewards label
-            // var rewardsLabel = document.createElement("label");
-            // setAttributes(rewardsLabel, {
-            //     "for":REWARDS_DIV_ID
-            // });
-            // rewardsLabel.innerHTML = REWARDS_LABEL + ":";
-            // formObject.appendChild(rewardsLabel);
-
-            // Create rewards input
-            // var rewardsInput = document.createElement("input");
-            // setAttributes(rewardsInput, {
-            //     "type": "text",
-            //     "name": REWARDS_DIV_ID,
-            //     "id": REWARDS_DIV_ID,
-            //     "value": "0"
-            // });
-
             var rewardsLabel = document.createElement("p");
             var node = document.createTextNode(REWARDS_LABEL);
             rewardsLabel.appendChild(node);
@@ -144,6 +127,22 @@
 
             // Insert linebreak
             insertLineBreak(formObject);
+
+            // Create help tooltip
+            var helpContainer = document.createElement("div");
+            setAttributes(helpContainer, {"class": "help-container"});
+            helpContainer.innerHTML = "How are my rewards calculated?";
+        
+            var helpTooltip = document.createElement("span");
+            setAttributes(helpTooltip, {"class": "help-tooltiptext"});
+            helpTooltip.innerHTML = "Rewarding cycle: " + REWARD_CYCLE + " DS epochs" + 
+             "\<br\>Est. rewarding frequency: " + REWARD_FREQUENCY + "hours" +
+             "\<br\>Annual interest rate: " + ANNUAL_INTEREST_RATE * 100 + "%" +
+             "\<br\>Interest rate per rewarding cycle: " + PER_CYCLE_INTEREST_RATE * 100 + "%" +
+             "\<br\>Minimum stake amount: " + MIN_STAKE_AMOUNT +
+             "\<br\>Rewards: number of days x staked amount x interest rate per reward cycle"
+            helpContainer.appendChild(helpTooltip);
+            formObject.appendChild(helpContainer);
 
             // Create reset button
             // Create button
