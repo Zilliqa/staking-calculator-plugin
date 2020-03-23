@@ -7,7 +7,10 @@
 
     const DAYS_OPERATION_DIV_ID = "days";
     const STAKED_AMOUNT_DIV_ID = "stakedAmount";
-    const REWARDS_DIV_ID = "rewards";
+    const REWARDS_LABEL_ID = "rewards-label";
+    const REWARDS_TEXT_ID = "rewards"
+    const REWARDS_CONTAINER_ID = "rewards-container";
+
     const DAYS_OPERATION_LABEL = "Days of Operation";
     const STAKED_AMOUNT_LABEL = "Staked amount ($ZIL)";
     const REWARDS_LABEL = "Est. rewards accumulated ($ZIL)";
@@ -41,7 +44,7 @@
             var container = document.getElementById(defaults.containerID);
 
             var header = document.createElement("h4");
-            header.innerHTML = "SSN REWARD CALCULATOR";
+            header.innerHTML = "ZILLIQA SSN REWARD CALCULATOR";
             container.appendChild(header);
 
             var formObject = document.createElement("form");
@@ -68,7 +71,7 @@
                 var operationalDays = document.getElementById("days").value;
                 var stakedAmount = document.getElementById("stakedAmount").value;
                 var rewards = calculateRewards(operationalDays, stakedAmount);
-                document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
+                document.getElementById("rewards").innerHTML = Number((rewards).toFixed(2)).toLocaleString('en-US');
             });
 
             formObject.appendChild(daysInput);
@@ -97,7 +100,7 @@
                 var operationalDays = document.getElementById("days").value;
                 var stakedAmount = document.getElementById("stakedAmount").value;
                 var rewards = calculateRewards(operationalDays, stakedAmount);
-                document.getElementById("rewards").value = Number((rewards).toFixed(2)).toLocaleString('en-US');
+                document.getElementById("rewards").innerHTML = Number((rewards).toFixed(2)).toLocaleString('en-US');
             });
 
             formObject.appendChild(stakedInput);
@@ -106,22 +109,38 @@
             insertLineBreak(formObject);
 
             // Create rewards label
-            var rewardsLabel = document.createElement("label");
-            setAttributes(rewardsLabel, {
-                "for":REWARDS_DIV_ID
-            });
-            rewardsLabel.innerHTML = REWARDS_LABEL + ":";
-            formObject.appendChild(rewardsLabel);
+            // var rewardsLabel = document.createElement("label");
+            // setAttributes(rewardsLabel, {
+            //     "for":REWARDS_DIV_ID
+            // });
+            // rewardsLabel.innerHTML = REWARDS_LABEL + ":";
+            // formObject.appendChild(rewardsLabel);
 
             // Create rewards input
-            var rewardsInput = document.createElement("input");
-            setAttributes(rewardsInput, {
-                "type": "text",
-                "name": REWARDS_DIV_ID,
-                "id": REWARDS_DIV_ID,
-                "value": "0"
-            });
-            formObject.appendChild(rewardsInput);
+            // var rewardsInput = document.createElement("input");
+            // setAttributes(rewardsInput, {
+            //     "type": "text",
+            //     "name": REWARDS_DIV_ID,
+            //     "id": REWARDS_DIV_ID,
+            //     "value": "0"
+            // });
+
+            var rewardsLabel = document.createElement("p");
+            var node = document.createTextNode(REWARDS_LABEL);
+            rewardsLabel.appendChild(node);
+            setAttributes(rewardsLabel, {"id": REWARDS_LABEL_ID});
+
+            var rewardsInput = document.createElement("span");
+            var node = document.createTextNode(0);
+            rewardsInput.appendChild(node);
+            setAttributes(rewardsInput, {"id": REWARDS_TEXT_ID});
+
+            var rewardsContainer = document.createElement("div");
+            setAttributes(rewardsContainer, {"id" : REWARDS_CONTAINER_ID});
+            rewardsLabel.appendChild(rewardsInput);
+            rewardsContainer.appendChild(rewardsLabel);
+            
+            formObject.appendChild(rewardsContainer);
 
             // Insert linebreak
             insertLineBreak(formObject);
@@ -133,12 +152,12 @@
                 "type": "button",
                 "id": "resetBtn"
             });
-            resetBtn.innerHTML = "Reset";
+            resetBtn.innerHTML = "Clear";
 
             resetBtn.addEventListener('click', function() {
                 document.getElementById("days").value = 0;
                 document.getElementById("stakedAmount").value = MIN_STAKE_AMOUNT;
-                document.getElementById("rewards").value = 0;
+                document.getElementById("rewards").innerHTML = 0;
             }, false);
 
             formObject.appendChild(resetBtn);
