@@ -20,7 +20,7 @@
     const REWARD_FREQUENCY = 24;
     const ANNUAL_INTEREST_RATE = 10.42 / 100; // percent
     const PER_CYCLE_INTEREST_RATE = 0.0285479 / 100; // percent
-    const MIN_STAKE_AMOUNT = 1000000;
+    const MIN_STAKE_AMOUNT = 10000000;
 
     function stakingCalculator() {
         var _calculatorObject = {};
@@ -136,10 +136,11 @@
             var helpTooltip = document.createElement("span");
             setAttributes(helpTooltip, {"class": "help-tooltiptext"});
             helpTooltip.innerHTML = "Rewarding cycle: " + REWARD_CYCLE + " DS epochs" + 
-             "\<br\>Est. rewarding frequency: " + REWARD_FREQUENCY + "hours" +
+             "\<br\>Est. rewarding frequency: " + REWARD_FREQUENCY + " hours" +
              "\<br\>Annual interest rate: " + ANNUAL_INTEREST_RATE * 100 + "%" +
              "\<br\>Interest rate per rewarding cycle: " + PER_CYCLE_INTEREST_RATE * 100 + "%" +
-             "\<br\>Minimum stake amount: " + MIN_STAKE_AMOUNT +
+             "\<br\>Minimum stake amount: " + Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ($ZIL)" +
+             "\<br\>" +
              "\<br\>Rewards: number of days x staked amount x interest rate per reward cycle"
             helpContainer.appendChild(helpTooltip);
             formObject.appendChild(helpContainer);

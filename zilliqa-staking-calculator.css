@@ -95,8 +95,8 @@
 .help-container .help-tooltiptext {
     visibility: hidden;
     width: 300px;
-    background-color: black;
-    color: #eeeeee;
+    background-color: #37474f;
+    color: #f0f0f0;
     text-align: left;
     padding: 8px 8px 8px 8px;
     border-radius: 6px;
@@ -105,7 +105,7 @@
     position: absolute;
     z-index: 1;
     bottom: 150%;
-    left: 50%;
+    left: 80%;
     margin-left: -150px;
 }
 
@@ -117,7 +117,7 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: #37474f transparent transparent transparent;
 }  
   
 /* Show the tooltip text when you mouse over the tooltip container */
