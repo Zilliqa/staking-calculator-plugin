@@ -42,7 +42,7 @@
 
 /* estimated amount */
 #staking-calculator #rewards-container {
-    color: #f0f0f0;
+    color: #ffffff;
     background: #4db6ac;
     padding-top: 2px;
     height: 40px;
@@ -136,4 +136,11 @@
 
 .help-container:hover {
     cursor: pointer;
+}
+
+/* error message display */
+#staking-message {
+    font-size: 0.8em;
+    color: #f44336;
+    font-weight: bold;
 }

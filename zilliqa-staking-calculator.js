@@ -14,13 +14,15 @@
     const DAYS_OPERATION_LABEL = "Days of Operation";
     const STAKED_AMOUNT_LABEL = "Staked amount ($ZIL)";
     const REWARDS_LABEL = "Est. rewards accumulated ($ZIL)";
-    const CALCULATE_REWARDS_LABEL = "Calculate Rewards";
 
     const REWARD_CYCLE = 15;
     const REWARD_FREQUENCY = 24;
     const ANNUAL_INTEREST_RATE = 10.42 / 100; // percent
     const PER_CYCLE_INTEREST_RATE = 0.0285479 / 100; // percent
     const MIN_STAKE_AMOUNT = 10000000;
+
+    const DAYS_OPERATION_ERROR_MSG = "ERROR: minimum days of operation is 0.";
+    const STAKED_AMOUNT_ERROR_MSG = "ERROR: minimum staked amount is " + Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ZIL.";
 
     function stakingCalculator() {
         var _calculatorObject = {};
@@ -47,6 +49,10 @@
             header.innerHTML = "ZILLIQA SSN REWARD CALCULATOR";
             container.appendChild(header);
 
+            var message = document.createElement("p");
+            setAttributes(message, {"id": "staking-message"});
+            container.appendChild(message);
+
             var formObject = document.createElement("form");
             formObject.setAttribute("action", "");
 
@@ -69,10 +75,23 @@
 
             daysInput.addEventListener('input', function() {
                 var operationalDays = document.getElementById("days").value;
-                var stakedAmount = document.getElementById("stakedAmount").value;
-                var rewards = calculateRewards(operationalDays, stakedAmount);
+                var stakedAmount = document.getElementById("stakedAmount").value.replace(/,/g, '');
+
+                if (isNaN(operationalDays)) {
+                    message.innerHTML = DAYS_OPERATION_ERROR_MSG;
+                    return;
+                } else {
+                    message.innerHTML = '';
+                }
+
+                if (operationalDays === '') {
+                    document.getElementById("days").value = 0;
+                }
+
+                var rewards = calculateRewards(message, operationalDays, stakedAmount);
+
                 document.getElementById("rewards").innerHTML = Number((rewards).toFixed(2)).toLocaleString('en-US');
-            });
+            }, false);
 
             formObject.appendChild(daysInput);
 
@@ -93,15 +112,20 @@
                 "type": "text",
                 "name": STAKED_AMOUNT_DIV_ID,
                 "id": STAKED_AMOUNT_DIV_ID,
-                "value": MIN_STAKE_AMOUNT
+                "value": Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US')
             });
 
             stakedInput.addEventListener('input', function() {
                 var operationalDays = document.getElementById("days").value;
-                var stakedAmount = document.getElementById("stakedAmount").value;
-                var rewards = calculateRewards(operationalDays, stakedAmount);
+                var stakedAmount = document.getElementById("stakedAmount").value.replace(/,/g, '');
+
+                var rewards = calculateRewards(message, operationalDays, stakedAmount);
+
+                // format the staked amount display to seperate the hundreds and thousands
+                document.getElementById(STAKED_AMOUNT_DIV_ID).value = (parseInt(stakedAmount) || MIN_STAKE_AMOUNT).toLocaleString('en-US');
+
                 document.getElementById("rewards").innerHTML = Number((rewards).toFixed(2)).toLocaleString('en-US');
-            });
+            }, false);
 
             formObject.appendChild(stakedInput);
 
@@ -156,8 +180,9 @@
 
             resetBtn.addEventListener('click', function() {
                 document.getElementById("days").value = 0;
-                document.getElementById("stakedAmount").value = MIN_STAKE_AMOUNT;
+                document.getElementById("stakedAmount").value = Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US');
                 document.getElementById("rewards").innerHTML = 0;
+                message.innerHTML = '';
             }, false);
 
             formObject.appendChild(resetBtn);
@@ -186,13 +211,17 @@
         elem.appendChild(paragraph);
     }
 
-    // TODO: add integer checks
-    function calculateRewards(days, stakedAmount) {
+    function calculateRewards(message, days, stakedAmount) {
         var rewards = 0;
-        if (isNaN(days) || isNaN(stakedAmount)) {
+        if (isNaN(days)) {
+            message.innerHTML = DAYS_OPERATION_ERROR_MSG;
+            return rewards;
+        } else if (isNaN(stakedAmount) || stakedAmount < MIN_STAKE_AMOUNT) {
+            message.innerHTML = STAKED_AMOUNT_ERROR_MSG;
             return rewards;
         }
-        return days * stakedAmount * PER_CYCLE_INTEREST_RATE;
+        message.innerHTML = '';
+        return parseInt(days) * parseInt(stakedAmount) * PER_CYCLE_INTEREST_RATE;
     }
 
     if (typeof(window.stakingCalculator) === 'undefined') {
