@@ -17,12 +17,14 @@
 
     const REWARD_CYCLE = 15;
     const REWARD_FREQUENCY = 24;
-    const ANNUAL_INTEREST_RATE = 10.42 / 100; // percent
-    const PER_CYCLE_INTEREST_RATE = 0.0285479 / 100; // percent
+    const ANNUAL_INTEREST_RATE = 10.03 / 100; // percent
+    const PER_CYCLE_INTEREST_RATE = 0.016167213 / 100; // percent
     const MIN_STAKE_AMOUNT = 10000000;
+    const MAX_STAKE_AMOUNT = 61000000;
 
     const DAYS_OPERATION_ERROR_MSG = "ERROR: minimum days of operation is 0.";
-    const STAKED_AMOUNT_ERROR_MSG = "ERROR: minimum staked amount is " + Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ZIL.";
+    const MIN_STAKED_AMOUNT_ERROR_MSG = "ERROR: minimum staked amount is " + Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ZIL.";
+    const MAX_STAKED_AMMOUNT_ERROR_MSG = "ERROR: maximum staked amount is " + Number((MAX_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ZIL.";
 
     function stakingCalculator() {
         var _calculatorObject = {};
@@ -164,6 +166,7 @@
              "\<br\>Annual interest rate: " + ANNUAL_INTEREST_RATE * 100 + "%" +
              "\<br\>Interest rate per rewarding cycle: " + PER_CYCLE_INTEREST_RATE * 100 + "%" +
              "\<br\>Minimum stake amount: " + Number((MIN_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ($ZIL)" +
+             "\<br\>Maximum stake amount: " + Number((MAX_STAKE_AMOUNT).toFixed(2)).toLocaleString('en-US') + " ($ZIL)" +
              "\<br\>" +
              "\<br\>Rewards: number of days x staked amount x interest rate per reward cycle"
             helpContainer.appendChild(helpTooltip);
@@ -217,7 +220,10 @@
             message.innerHTML = DAYS_OPERATION_ERROR_MSG;
             return rewards;
         } else if (isNaN(stakedAmount) || stakedAmount < MIN_STAKE_AMOUNT) {
-            message.innerHTML = STAKED_AMOUNT_ERROR_MSG;
+            message.innerHTML = MIN_STAKED_AMOUNT_ERROR_MSG;
+            return rewards;
+        } else if (stakedAmount > MAX_STAKE_AMOUNT) {
+            message.innerHTML = MAX_STAKED_AMMOUNT_ERROR_MSG;
             return rewards;
         }
         message.innerHTML = '';
