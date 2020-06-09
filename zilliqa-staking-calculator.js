@@ -15,10 +15,10 @@
     const STAKED_AMOUNT_LABEL = "Staked amount ($ZIL)";
     const REWARDS_LABEL = "Est. rewards accumulated ($ZIL)";
 
-    const REWARD_CYCLE = 15;
+    const REWARD_CYCLE = 17;
     const REWARD_FREQUENCY = 24;
     const ANNUAL_INTEREST_RATE = 10.03 / 100; // percent
-    const PER_CYCLE_INTEREST_RATE = 0.016167213 / 100; // percent
+    const PER_CYCLE_INTEREST_RATE = 0.027479452 / 100; // percent
     const MIN_STAKE_AMOUNT = 10000000;
     const MAX_STAKE_AMOUNT = 61000000;
 
